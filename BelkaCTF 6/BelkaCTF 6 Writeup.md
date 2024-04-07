@@ -25,7 +25,7 @@ I extracted the iOS disk image and loaded it up in a simple iLEAPP GUI that's in
 
 Heading into the *Account Data* tab, we can see the accounts that were used on that phone, that's where we get the Apple ID from.
 
-![img](img/Pasted image 20240408000057.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408000057.png?raw=true)
 
 The flag: `billthemegakill@icloud.com`
 
@@ -37,7 +37,7 @@ The flag: `billthemegakill@icloud.com`
 ***
 Scrolling a little bit down in the iLEAPP's report tabs, we can find the *Address book*. Opening that, we see the full name of the iPhone owner.
 
-![img](img/Pasted image 20240408000435.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408000435.png?raw=true)
 
 The flag: `William Phorger` (I see what you did with the name😉)
 
@@ -49,7 +49,7 @@ The flag: `William Phorger` (I see what you did with the name😉)
 ***
 Thankfully, iLEAPP also supports reading Telegram messages, so we quickly hop into the *Telegram - Messages* tab, and there we could see all communications with his "business" partners as well as their Telegram usernames. Clicking through the pages and noting all his shady contacts, we get the flag.
 
-![img](img/Pasted image 20240408000925.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408000925.png?raw=true)
 
 The flag: `@diddyflowers, @Sm00thOperat0r, @JesusStreeton1999, @locknload771`
 
@@ -63,7 +63,7 @@ This one is, as the difficulty suggests, a bit trickier, and requires you to do 
 
 Looking at the list of applications installed on the phone in iLEAPP (*Apps - Itunes metadata* tab), I quickly spotted an Uber app installed, so I decided to see what kind of data it stores. After navigating to the app's container path + /Documents, which I found searching for folders with "com.ubercab.UberClient" in their name, we see two SQLite databases. Opening `database.db` in [DB Browser for SQLite](https://sqlitebrowser.org/) and navigating to the `fts_place_table` or `place` tables, we see the home address.
 
-![img](img/Pasted image 20240408002939.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408002939.png?raw=true)
 
 The flag: `38.58976434380295, -90.32529780538323`
 
@@ -87,13 +87,13 @@ This one was quite challenging without Belkasoft X. In fact, it was my second-to
 
 First of all, I found a screenshot of some bank transactions in the user's Pictures folder. Then, the intended way was using the [aCropalypse](https://en.wikipedia.org/wiki/ACropalypse) vulnerability in the Windows' screenshot tool to get the full screenshot, but I found a much easier (unintended) way - the full screenshot was cached by the snipping tool, and I was able to find it in the *Images* tab of files sorted by filetype.
 
-![img](img/Pasted image 20240408004404.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408004404.png?raw=true)
 
 The URL on the screenshot is actually wrong as the challenge authors didn't anticipate this way of solving. The correct URL for the bank is https://crbk.org, which you can find in the *Safari history* of the iPhone image.
 
 After navigating to the bank URL and resetting the password with his username and card number, we see the latest transactions with one incoming from Maximilian Senntens - that's the one we need.
 
-![img](img/Pasted image 20240408004959.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408004959.png?raw=true)
 
 The flag: `7012.39`
 
@@ -107,7 +107,7 @@ In this one, we return to the iOS image. Looking at other apps installed, there'
 
 Repeating the same steps like we did with Uber, we go to the app's folder and look for databases that might contain valuable information. We find one at `Library/Application Support`, and looking through it we find the `SWExpense` table which lists all the expenses created in the app, one of which is "Get-together at Cunetto".
 
-![img](img/Pasted image 20240408005600.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408005600.png?raw=true)
 
 From the Telegram messages we extracted using iLEAPP, we can learn that the gang celebrated their success on the 20th of March, which matches the date in the database. Looking up the place on Google Maps, we get the coordinates.
 
@@ -121,7 +121,7 @@ The flag: `38.61034,-90.28030`
 ***
 This one I solved just by looking at files grouped by size in Autopsy, and there it was, in the `200MB - 1GB` tab.
 
-![img](img/Pasted image 20240408005834.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408005834.png?raw=true)
 
 The flag: `C:\Users\phorger\Documents\desktop.ini:vault.vhdx`
 
@@ -137,11 +137,11 @@ Firstly, I saw that there was a text file in the *Recent Documents* tab named `B
 
 Then when looking in the iOS image, I remembered about the Notes app. iLEAPP doesn't support note extraction, so I had to use ArtEx for that. Selecting `Notes` in the `TimeLine` tab, I see 6 events, with one being the note with the Bitlocker Recovery key - bingo!
 
-![img](img/Pasted image 20240408010917.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408010917.png?raw=true)
 
-I mounted the image on my PC with the recovery key, and I found a bunch of PDFs with printer manuals, as well as a `Spending.xlsx` file. In there, we find the most expensive item he bought. 
+I mounted the image on my PC with the recovery key by double-clicking the vhdx file, and I found a bunch of PDFs with printer manuals, as well as a `Spending.xlsx` file. In there, we find the most expensive item he bought. 
 
-![img](img/Pasted image 20240408011127.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408011127.png?raw=true)
 
 The flag: `Rolex Submariner Date ref 126619LB`
 
@@ -159,7 +159,7 @@ I ran that tool over all of morgue files from Telegram Web. This gave me a bunch
 
 Just like that, I find the cover image for a concert in Paris on the 26th of May, thus solving the challenge (you can see the cached filename on the screenshot).
 
-![img](img/Pasted image 20240408012113.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408012113.png?raw=true)
 
 The flag: `Eric Clapton, Accor Arena, Paris`
 
@@ -175,7 +175,7 @@ Then, after I got the recovery key for the container, I found the Telegram bot s
 
 Looking at the metadata of the template using `exiftool`, the `History` field catches my attention, containing the absolute path to the PSD file on Drew's machine, and that's how we get the girl's full name.
 
-![img](img/Pasted image 20240408013105.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408013105.png?raw=true)
 
 The flag: `Drew Linesworth` *(love the wordplay)*
 
@@ -193,7 +193,7 @@ Examining these cached screenshots, I find a screenshot of Apple Maps, but it's 
 
 Also, turns out that Geofences extraction is a feature in ArtEx, but for some reason, it didn't work on this image, so this could've a bit easier if it wasn't for that.
 
-![img](img/Pasted image 20240408015241.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408015241.png?raw=true)
 
 The flag: `900 N 88th St, East St Louis, IL`
 
@@ -217,7 +217,7 @@ The flag: `2024-04-02 22:44:30 UTC`
 ***
 That one was easy too, I quickly figured it out by going to the `USB Devices Attached` tab in Autopsy and there it was, in its full glory.
 
-![img](img/Pasted image 20240408020102.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408020102.png?raw=true)
 
 The flag: `HP LaserJet M1132 MFP`
 
@@ -231,7 +231,7 @@ On this one, I've also looked at all locations extracted with iLEAPP and ArtEx, 
 
 Skimming through the iLEAPP report, WiFi network data peaked my interest, as I could use WiGLE to find access point locations. There were only 2 known network, the first named TWR9 that was the most used network, presumably at his home, and a second one - UCPLPublicWireless, which is a public network of the Univercity City Public Library. The dates correlated nicely with the panicked Telegram messages, so I looked up the nearest ATM to that library on Google Maps. Another one off the list.
 
-![img](img/Pasted image 20240408020940.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408020940.png?raw=true)
 
 The flag: `Regions Bank on Delmar Blvd`
 
@@ -243,17 +243,17 @@ The flag: `Regions Bank on Delmar Blvd`
 ***
 This task required some creative thinking with the data you had. I found the first clue to solving the task by finding an entry in the `Recent Documents` in Autopsy, which pointed to the Y: drive, that is the encrypted BitLocker container we found earlier.
 
-![img](img/Pasted image 20240408021407.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408021407.png?raw=true)
 
 However, if we navigate to that vault, we don't see that PDF. Another little clue that I had found is in the browser history:
 
-![img](img/Pasted image 20240408021642.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408021642.png?raw=true)
 
 This got me thinking that I possibly need to recover deleted files from the vault, and I did so using [Recuva](https://www.ccleaner.com/recuva) because that's what I already had installed previously. This yielded me several PDF files, one of which is the one we were looking for. I know that PDFs often have digital signatures, so at that point I was pretty certain that I needed to look at the digital signature to figure out the leaker.
 
 I opened the PDF in Adobe Acrobat, and it immediately complained to me about the invalid digital signature, as well as generously displaying the signer's name. 17:0 for the detective :)
 
-![img](img/Pasted image 20240408022241.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408022241.png?raw=true)
 
 The flag: `Kenneth Leek` *(the jokes never stop)*
 
@@ -267,7 +267,7 @@ I was surprised by such low amount of solves on this challenge, as it turned out
 
 Armed with that knowledge, I find the Shortcuts SQLite database at `/var/mobile/Library/Shortcuts/Shortcuts.sqlite` and open it up. I find the SecuEncrypt and SecuDecrypt shortcuts in the `ZSHORTCUT` table, and in the `ZSHORTCUTACTIONS` I find the code that powers those shortcuts. It's some JavaScript embedded in a plist format encoded in UTF-16, but I didn't bother to use tools to parse the plist and just opened that SQLite database in [EmEditor](https://www.emeditor.com/) (fancy Notepad) with UTF-16LE encoding and ripped out the code from there.
 
-![img](img/Pasted image 20240408024057.png)
+![img](https://github.com/its5Q/writeups/blob/master/BelkaCTF%206/img/Pasted%20image%2020240408024057.png?raw=true)
 
 Analyzing the code, I saw that there are integer variables `a` and `b` derived from the key string, and their values are bound to range `[0;255]`, so it's very easy to bruteforce them as it's just ~65535  combinations. I modified the decryption code to cycle through all possible values of those numbers and try to decrypt the message, and if the message contains strictly printable ASCII, it outputs it to the console.
 
